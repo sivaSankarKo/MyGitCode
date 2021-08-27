@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ac1b144f-e62d-4227-ba7b-a670dca84fc4" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="gitprojectFlow" doc:id="14daa2f7-17fc-498e-ad98-80d6033df2fc" >
+		<http:listener doc:name="Listener" doc:id="e0d61569-8736-4302-b81b-59351d81ba9a" config-ref="HTTP_Listener_config" path="git"/>
+		<set-payload value="Hello world" doc:name="Set Payload" doc:id="d238d223-26e6-42c2-8dab-eec8bc75ca25" />
+		<ee:transform doc:name="Transform Message" doc:id="1b1b43cd-d4f5-4ac9-bd86-c41bed355f72" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
